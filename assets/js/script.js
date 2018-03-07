@@ -1,119 +1,129 @@
-'use strict';
+"use strict";
 
 $(document).ready(function () {
 	// fullpage initialization
-	$("#fullpage").fullpage({
-		navigation: true,
-		responsiveWidth: 769,
-		fixedElements: 'header',
-		onLeave: function onLeave(index, nextIndex, direction) {
-			// after leaving section 1
-			if (index == 1 && direction == 'down') {
-				$('header').addClass('sticky');
-			}
-			// before entering section 1
-			else if (index == 2 && direction == 'up') {
-					$('header').removeClass('sticky');
+	if ($("#fullpage").length) {
+		$("#fullpage").fullpage({
+			navigation: true,
+			responsiveWidth: 769,
+			fixedElements: 'header',
+			onLeave: function onLeave(index, nextIndex, direction) {
+				// after leaving section 1
+				if (index == 1 && direction == 'down') {
+					$('header').addClass('sticky');
 				}
-		}
-	});
-
-	// Owl-Carousel initializations
-	var top_owl = $(".top-carousel").owlCarousel({
-		items: 1,
-		loop: false,
-		autoplay: true,
-		rewind: true,
-		autoplaySpeed: 2000,
-		autoplayTimeout: 7000,
-		mouseDrag: false,
-		touchDrag: false,
-		navText: ['<img src="assets/img/icons/arrow-left.png" alt="arrow icon">', '<img src="assets/img/icons/arrow-right.png" alt="arrow icon">'],
-		animateOut: 'fadeOut',
-		animateIn: 'fadeIn',
-		responsive: {
-			0: {
-				nav: false,
-				dots: true
-			},
-			769: {
-				nav: true,
-				dots: false
+				// before entering section 1
+				else if (index == 2 && direction == 'up') {
+						$('header').removeClass('sticky');
+					}
 			}
-		}
-	});
-
-	$(".news-carousel").owlCarousel({
-		items: 1,
-		dots: true,
-		loop: false,
-		autoplay: true,
-		rewind: true,
-		mouseDrag: false,
-		touchDrag: false,
-		autoplayTimeout: 7000
-	});
-
-	$(".pub-carousel").owlCarousel({
-		items: 3,
-		dots: false,
-		nav: true,
-		loop: false,
-		autoplay: false,
-		rewind: true,
-		mouseDrag: false,
-		touchDrag: false,
-		navText: ['<img src="assets/img/icons/arrow-left.png" alt="arrow icon">', '<img src="assets/img/icons/arrow-right.png" alt="arrow icon">'],
-		responsive: {
-			0: {
-				items: 1
-			},
-			839: {
-				items: 2
-			},
-			1300: {
-				items: 3
-			}
-		}
-	});
-
-	// Animate carousel elements
-	function setAnimation(_elem, _InOut) {
-		var animationEndEvent = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-		_elem.each(function () {
-			var $elem = $(this);
-			var $animationType = 'animated ' + $elem.data('animation-' + _InOut);
-			$elem.addClass($animationType).one(animationEndEvent, function () {
-				$elem.removeClass($animationType);
-			});
 		});
 	}
 
-	top_owl.on('change.owl.carousel', function (event) {
-		var $currentItem = $('.owl-item', top_owl).eq(event.item.index);
-		var $elemsToanim = $currentItem.find("[data-animation-out]");
-		setAnimation($elemsToanim, 'out');
-	});
-
-	top_owl.on('changed.owl.carousel', function (event) {
-		var $currentItem = $('.owl-item', top_owl).eq(event.item.index);
-		var $elemsToanim = $currentItem.find("[data-animation-in]");
-		setAnimation($elemsToanim, 'in');
-	});
-
-	var round = 0;
-	top_owl.on('translated.owl.carousel', function (event) {
-		if (event.item.index == event.page.count - 1) {
-			if (round < 1) {
-				round++;
-			} else {
-				top_owl.trigger('stop.owl.autoplay');
-				var owlData = top_owl.data('owl.carousel');
-				owlData.options.autoplay = false;
-				top_owl.trigger('refresh.owl.carousel');
+	// Owl-Carousel initializations
+	if ($(".top-carousel").length) {
+		var top_owl = $(".top-carousel").owlCarousel({
+			items: 1,
+			loop: false,
+			autoplay: true,
+			rewind: true,
+			autoplaySpeed: 2000,
+			autoplayTimeout: 7000,
+			mouseDrag: false,
+			touchDrag: false,
+			navText: ['<img src="assets/img/icons/arrow-left.png" alt="arrow icon">', '<img src="assets/img/icons/arrow-right.png" alt="arrow icon">'],
+			animateOut: 'fadeOut',
+			animateIn: 'fadeIn',
+			responsive: {
+				0: {
+					nav: false,
+					dots: true
+				},
+				769: {
+					nav: true,
+					dots: false
+				}
 			}
-		}
-	});
+		});
+	}
+
+	if ($(".news-carousel").length) {
+		$(".news-carousel").owlCarousel({
+			items: 1,
+			dots: true,
+			loop: false,
+			autoplay: true,
+			rewind: true,
+			mouseDrag: false,
+			touchDrag: false,
+			autoplayTimeout: 7000
+		});
+	}
+
+	if ($(".pub-carousel").length) {
+		$(".pub-carousel").owlCarousel({
+			items: 3,
+			dots: false,
+			nav: true,
+			loop: false,
+			autoplay: false,
+			rewind: true,
+			mouseDrag: false,
+			touchDrag: false,
+			navText: ['<img src="assets/img/icons/arrow-left.png" alt="arrow icon">', '<img src="assets/img/icons/arrow-right.png" alt="arrow icon">'],
+			responsive: {
+				0: {
+					items: 1
+				},
+				839: {
+					items: 2
+				},
+				1300: {
+					items: 3
+				}
+			}
+		});
+	}
+
+	// Animate carousel elements
+	if ($(".top-carousel").length) {
+		var setAnimation = function setAnimation(_elem, _InOut) {
+			var animationEndEvent = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+			_elem.each(function () {
+				var $elem = $(this);
+				var $animationType = 'animated ' + $elem.data('animation-' + _InOut);
+				$elem.addClass($animationType).one(animationEndEvent, function () {
+					$elem.removeClass($animationType);
+				});
+			});
+		};
+
+		top_owl.on('change.owl.carousel', function (event) {
+			var $currentItem = $('.owl-item', top_owl).eq(event.item.index);
+			var $elemsToanim = $currentItem.find("[data-animation-out]");
+			setAnimation($elemsToanim, 'out');
+		});
+
+		top_owl.on('changed.owl.carousel', function (event) {
+			var $currentItem = $('.owl-item', top_owl).eq(event.item.index);
+			var $elemsToanim = $currentItem.find("[data-animation-in]");
+			setAnimation($elemsToanim, 'in');
+		});
+
+		var round = 0;
+		top_owl.on('translated.owl.carousel', function (event) {
+			if (event.item.index == event.page.count - 1) {
+				if (round < 1) {
+					round++;
+				} else {
+					top_owl.trigger('stop.owl.autoplay');
+					var owlData = top_owl.data('owl.carousel');
+					owlData.options.autoplay = false;
+					top_owl.trigger('refresh.owl.carousel');
+				}
+			}
+		});
+	}
 
 	// Sticky navbar mobile
 	$(window).scroll(function () {
@@ -125,6 +135,20 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+	if ($(".content-page").length) {
+		$(window).scroll(function () {
+			if ($(window).scrollTop() > 30) {
+				$('header').addClass("sticky");
+				$('header').css("position", "fixed");
+				$('.content-page main').css("padding-top", "176px");
+			} else {
+				$('header').removeClass("sticky");
+				$('header').css("position", "unset");
+				$('.content-page main').css("padding-top", "0");
+			}
+		});
+	}
 
 	// Replace all SVG images with inline SVG
 	$('img.svg').each(function () {
@@ -141,6 +165,21 @@ $(document).ready(function () {
 			$img.replaceWith($svg);
 		}, 'xml');
 	});
+
+	$(".zoom a").on("click", function (event) {
+		var dz = $(this).attr("id");
+		var size = parseInt($(".wysiwyg").css("font-size"));
+
+		if (dz == "zoom") {
+			if (size < 24) {
+				$(".wysiwyg").css("font-size", size + 2 + "px");
+			}
+		} else {
+			if (size > 14) {
+				$(".wysiwyg").css("font-size", size - 2 + "px");
+			}
+		}
+	});
 });
 
 // Show fullscreen overlay content
@@ -152,9 +191,11 @@ function openOverlayLeft(overlay) {
 	$elm = $("#" + overlay);
 	opening_direction = "left";
 
-	$("#fp-nav").fadeOut("slow");
-	$("body").css("overflow", "hidden");
-	$.fn.fullpage.setAllowScrolling(false);
+	if ($("#fullpage").length) {
+		$("#fp-nav").fadeOut("slow");
+		$("body").css("overflow", "hidden");
+		$.fn.fullpage.setAllowScrolling(false);
+	}
 
 	$elm.show();
 	$elm.removeClass("fadeOutLeftBig");
@@ -165,9 +206,11 @@ function openOverlayRight(overlay) {
 	$elm = $("#" + overlay);
 	opening_direction = "right";
 
-	$("#fp-nav").fadeOut("slow");
-	$("body").css("overflow", "hidden");
-	$.fn.fullpage.setAllowScrolling(false);
+	if ($("#fullpage").length) {
+		$("#fp-nav").fadeOut("slow");
+		$("body").css("overflow", "hidden");
+		$.fn.fullpage.setAllowScrolling(false);
+	}
 
 	$elm.show();
 	$elm.removeClass("fadeOutRightBig");
@@ -178,9 +221,11 @@ $(".closeOverlay").click(function () {
 	var currentOverlay = $(this).closest('.overlay').attr("id");
 	$elm = $("#" + currentOverlay);
 
-	$("#fp-nav").fadeIn("slow");
-	$("body").css("overflow", "visible");
-	$.fn.fullpage.setAllowScrolling(true);
+	if ($("#fullpage").length) {
+		$("#fp-nav").fadeIn("slow");
+		$("body").css("overflow", "visible");
+		$.fn.fullpage.setAllowScrolling(true);
+	}
 
 	if (opening_direction == "left") {
 		opening_direction = "";
